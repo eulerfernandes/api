@@ -1,17 +1,35 @@
 import { Request, Response } from "express";
-import { listConjuntos, criarConjunto } from "../services/conjuntoDadosService";
+import { db } from "../config/database";
 
-export const getConjuntos = async (req: Request, res: Response) => {
+export const getConjuntos = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { nome } = req.query;
+
   try {
-    const conjuntos = await listConjuntos();
-    res.status(200).json(conjuntos);
+    if (nome) {
+      const result = await db.query(
+        "SELECT * FROM conjunto_dados WHERE nome ILIKE $1",
+        [`%${nome}%`]
+      );
+      res.status(200).json(result.rows);
+      return;
+    }
+
+    const result = await db.query("SELECT * FROM conjunto_dados");
+    res.status(200).json(result.rows);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao buscar dados" });
   }
 };
 
-export const postConjunto = async (req: Request, res: Response) => {
-  const { nome, descricao } = req.body;
+export const createConjunto = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { nome } = req.body;
 
   if (!nome) {
     res.status(400).json({ error: "O campo 'nome' é obrigatório." });
@@ -19,9 +37,13 @@ export const postConjunto = async (req: Request, res: Response) => {
   }
 
   try {
-    const novoConjunto = await criarConjunto(nome, descricao);
-    res.status(201).json(novoConjunto);
+    const result = await db.query(
+      "INSERT INTO conjunto_dados (nome) VALUES ($1) RETURNING *",
+      [nome]
+    );
+    res.status(201).json(result.rows[0]);
   } catch (error) {
-    res.status(500).json({ error: "Erro ao inserir dados" });
+    console.error(error);
+    res.status(500).json({ error: "Erro ao criar conjunto de dados" });
   }
 };

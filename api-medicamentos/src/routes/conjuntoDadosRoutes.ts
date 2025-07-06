@@ -1,12 +1,12 @@
 import express from "express";
 import {
   getConjuntos,
-  postConjunto,
+  createConjunto,
 } from "../controllers/conjuntoDadosController";
 
 const router = express.Router();
 
 router.get("/conjuntos", getConjuntos);
-router.post("/conjuntos", postConjunto);
+router.post("/conjuntos", createConjunto);
 
 export default router;
