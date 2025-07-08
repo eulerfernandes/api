@@ -1,31 +1,98 @@
 # 💊 API de Consulta de Medicamentos
 
-Este projeto é uma API desenvolvida com **Node.js**, **Express** e **TypeScript**, que fornece informações sobre medicamentos a partir de dados oficiais da **Anvisa**.
+API REST desenvolvida com **Node.js**, **Express** e **TypeScript**, que fornece informações sobre medicamentos a partir de dados públicos da **Anvisa**.
+
+---
 
 ## 📦 Sobre o Projeto
 
-A proposta desta API é facilitar o acesso a informações de medicamentos, especialmente para **balconistas de farmácia**, integrando dados públicos em uma interface simples e consultável via requisições HTTP.
+O objetivo desta API é **facilitar o acesso a informações sobre medicamentos**, integrando dados da Anvisa em uma interface simples, eficiente e acessível para **balconistas de farmácia** e sistemas de farmácias.
+
+---
+
+## 🚀 Funcionalidades Atuais
+
+- 🔎 Listagem de medicamentos (GET)
+- ➕ Cadastro de novos registros (POST)
+- 🔍 Filtro por nome via query params
+- 🧪 Integração com PostgreSQL
+- ✅ Testes via Insomnia
+- 🧱 Estrutura MVC (Model, Controller, Service, Routes)
 
 ---
 
 ## 🛠 Tecnologias Utilizadas
 
-- **Node.js** + **Express** — Servidor e rotas da API
-- **TypeScript** — Tipagem e organização do código
-- **PostgreSQL** — Banco de dados relacional
-- **dotenv** — Gerenciamento de variáveis de ambiente
-- **CSV da Anvisa** — Fonte oficial dos dados de medicamentos
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [pg (node-postgres)](https://node-postgres.com/)
+- [dotenv](https://github.com/motdotla/dotenv)
+- [Insomnia](https://insomnia.rest/) — Testes de API
+- CSV da [Anvisa](https://www.gov.br/anvisa/pt-br)
+
+---
+
+🧩 Setup do Banco de Dados
+
+O banco de dados é populado com um arquivo .csv oficial da Anvisa.
+
+A tabela conjunto_dados armazena os seguintes campos:
+
+organização, nome, descrição, tags,
+quantidade_recursos, quantidade_reusos,
+quantidade_downloads, quantidade_seguidores
+
+O acesso ao banco é feito via pg e configurado com variáveis .env.
+
+---
+
+📥 Variáveis de Ambiente
+
+Crie um arquivo .env na raiz com:
+
+DB_HOST=localhost
+
+DB_PORT=5433
+
+DB_USER=postgres
+
+DB_PASSWORD=postgres
+
+DB_NAME=anvisa_db
 
 ---
 
 ## 🗃️ Estrutura do Projeto
 
-A estrutura segue o padrão **CRC (Controller, Repository, Service)**:
+```bash
+src/
+│
+├── config/                 # Configuração do banco de dados (pg + dotenv)
+├── controllers/            # Lógica das rotas (Request/Response)
+├── models/                 # Funções que interagem com o banco de dados
+├── routes/                 # Endpoints da API
+├── services/               # Camada intermediária com regras de negócio
+└── app.ts                  # Arquivo principal (setup do Express)
 
----
+📌 Próximas Etapas
+ Endpoint PUT para atualização
 
-## 🧩 Setup do Banco de Dados
+ Endpoint DELETE para remoção
 
-- A base de dados foi criada a partir de um **arquivo CSV** baixado do site oficial da [Anvisa](https://www.gov.br/anvisa/pt-br).
-- Os dados foram importados diretamente para uma tabela no **PostgreSQL**, utilizando os comandos `COPY` e ferramentas de importação.
-- O banco foi modelado para otimizar a consulta de informações relevantes.
+ Paginação e ordenação
+
+ Documentação com Swagger
+
+ Validação com Zod/Yup
+
+ Deploy (Railway, Render ou VPS)
+
+🧠 Autor
+Desenvolvido por Euler Fernandes 🚀
+Contato: eulerfernandes0@gmail.com
+
+
+
+```
