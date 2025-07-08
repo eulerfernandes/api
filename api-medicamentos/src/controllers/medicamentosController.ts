@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { inserirConjunto, getAllConjuntos } from "../models/conjuntoDadosModel";
+import { inserirConjunto, getAllConjuntos } from "../models/medicamentosModel";
 
 export const getConjuntos = async (
   req: Request,
@@ -8,18 +8,16 @@ export const getConjuntos = async (
   const { nome } = req.query;
 
   try {
+    const result = await getAllConjuntos();
+
     if (nome) {
-      // Buscar pelo nome (filtrando no banco direto)
-      const result = await getAllConjuntos();
       const filtrados = result.filter((item) =>
         item.nome.toLowerCase().includes((nome as string).toLowerCase())
       );
       res.status(200).json(filtrados);
-      return;
+    } else {
+      res.status(200).json(result);
     }
-
-    const result = await getAllConjuntos();
-    res.status(200).json(result);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Erro ao buscar dados" });
@@ -49,16 +47,16 @@ export const createConjunto = async (
   }
 
   try {
-    const novoConjunto = await inserirConjunto(
-      organizacao || null,
+    const novoConjunto = await inserirConjunto({
+      organizacao: organizacao || null,
       nome,
       descricao,
-      tags || null,
-      quantidade_recursos || 0,
-      quantidade_reusos || 0,
-      quantidade_downloads || 0,
-      quantidade_seguidores || 0
-    );
+      tags: tags || null,
+      quantidade_recursos: quantidade_recursos || 0,
+      quantidade_reusos: quantidade_reusos || 0,
+      quantidade_downloads: quantidade_downloads || 0,
+      quantidade_seguidores: quantidade_seguidores || 0,
+    });
 
     res.status(201).json(novoConjunto);
   } catch (error) {

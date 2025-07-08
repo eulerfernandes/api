@@ -1,5 +1,5 @@
 import express from "express";
-import conjuntoDadosRoutes from "./routes/conjuntoDadosRoutes";
+import medicamentosRoutes from "./routes/medicamentosRoutes";
 import dotenv from "dotenv";
 import { db } from "./config/database";
 
@@ -16,7 +16,7 @@ db.connect()
     console.log("✅ Conectado ao banco de dados PostgreSQL");
 
     // Rotas
-    app.use("/api", conjuntoDadosRoutes);
+    app.use("/api", medicamentosRoutes);
 
     app.listen(PORT, () => {
       console.log(`🚀 Servidor rodando na porta ${PORT}`);

@@ -2,7 +2,7 @@ import express from "express";
 import {
   getConjuntos,
   createConjunto,
-} from "../controllers/conjuntoDadosController";
+} from "../controllers/medicamentosController";
 
 const router = express.Router();
 
